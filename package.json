@@ -8,7 +8,7 @@
   "unityRelease": "0f1",
   "documentationUrl": "https://bit.ly/UnitySDKDocs",
   "changelogUrl": "https://docs.readyplayer.me/ready-player-me/integration-guides/unity-sdk/changelog",
-  "licensesUrl": "https://github.com/readyplayerme/Unity-WebView/blob/main/LICENSE.md ",
+  "licensesUrl": "https://github.com/readyplayerme/rpm-unity-sdk-webview/blob/main/LICENSE.md",
   "dependencies": {
     "com.unity.ugui": "1.0.0",
     "com.unity.nuget.newtonsoft-json": "3.0.2"
