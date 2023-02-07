@@ -114,7 +114,7 @@ namespace ReadyPlayerMe.WebView
         /// <returns>The Url to load in the WebView.</returns>
         private string GetUrlFromConfig()
         {
-            var partnerSubdomain = CoreSettings.PartnerSubdomainSettings.Subdomain;
+            var partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
             var builder = new StringBuilder($"https://{partnerSubdomain}.readyplayer.me/");
             builder.Append(urlConfig.language != Language.Default ? $"{urlConfig.language.GetValue()}/" : string.Empty);
             builder.Append($"avatar?{FRAME_API_PARAM}");
