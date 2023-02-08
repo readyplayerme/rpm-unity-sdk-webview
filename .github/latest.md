@@ -1,12 +1,13 @@
-Describe what has changed in this release
+This release includes a number of fixes and adds support for optional SDK logging.
 
 ## Changelog
 
-<!--- remove if not needed --->
 ### Added
+- optional sdk logging
+- release git actions
 
-<!--- remove if not needed --->
 ### Updated
+- Partner subdomain now comes from CoreSettings object
 
-<!--- remove if not needed --->
-### Changed 
+### Fixed
+- Various other bug fixes and improvements
