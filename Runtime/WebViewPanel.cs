@@ -12,6 +12,7 @@ namespace ReadyPlayerMe.WebView
     /// </summary>
     public class WebViewPanel : MonoBehaviour
     {
+        private const string TAG = nameof(WebViewPanel);
         private const string DATA_URL_FIELD_NAME = "url";
         private const string AVATAR_EXPORT_EVENT_NAME = "v1.avatar.exported";
         private const string CLEAR_CACHE_PARAM = "clearCache";
@@ -114,7 +115,7 @@ namespace ReadyPlayerMe.WebView
         /// <returns>The Url to load in the WebView.</returns>
         private string GetUrlFromConfig()
         {
-            var partnerSubdomain = CoreSettings.PartnerSubdomainSettings.Subdomain;
+            var partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
             var builder = new StringBuilder($"https://{partnerSubdomain}.readyplayer.me/");
             builder.Append(urlConfig.language != Language.Default ? $"{urlConfig.language.GetValue()}/" : string.Empty);
             builder.Append($"avatar?{FRAME_API_PARAM}");
@@ -131,7 +132,7 @@ namespace ReadyPlayerMe.WebView
             }
 
             var url = builder.ToString();
-            Debug.Log(url);
+            SDKLogger.AvatarLoaderLogger.Log(TAG, "url");
 
             return url;
         }
@@ -150,8 +151,7 @@ namespace ReadyPlayerMe.WebView
         // Receives message from RPM website, which contains avatar URL.
         private void OnWebMessageReceived(string message)
         {
-            Debug.Log($"--- WebView Message: {message}");
-
+            SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- WebView Message: {message}");
             try
             {
                 var webMessage = JsonConvert.DeserializeObject<WebMessage>(message);
@@ -174,7 +174,7 @@ namespace ReadyPlayerMe.WebView
             }
             catch (Exception e)
             {
-                Debug.Log($"--- Message is not JSON: {message}\nError Message: {e.Message}");
+                SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- Message is not JSON: {message}\nError Message: {e.Message}");
             }
         }
 
@@ -186,8 +186,7 @@ namespace ReadyPlayerMe.WebView
         {
             if (loaded) return;
 
-            Debug.Log("--- WebView Loaded.");
-
+            SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- WebView Loaded.");
             webViewObject.EvaluateJS(@"
                 document.cookie = 'webview=true';
 
