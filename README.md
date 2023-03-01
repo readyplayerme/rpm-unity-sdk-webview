@@ -10,7 +10,7 @@ Please visit the online documentation and join our public `discord` community.
 
 ![](https://i.imgur.com/FgbNsPN.png) **[Discord Channel]( https://discord.gg/9veRUu2 )**
 
-:octocat:**[Github Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-webview/discussions )**
+:octocat: **[GitHub Discussions]( https://github.com/readyplayerme/rpm-unity-sdk-webview/discussions )**
 
 ## How to install
 
