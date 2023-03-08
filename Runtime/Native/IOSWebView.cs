@@ -12,12 +12,17 @@ namespace ReadyPlayerMe.WebView
     {
         private IntPtr webView;
 
-        public override void Init(WebViewOptions options)
+        public override void AskPermission()
         {
             if (!Application.HasUserAuthorization(UserAuthorization.WebCam))
             {
                 Application.RequestUserAuthorization(UserAuthorization.WebCam);
             }
+        }
+
+        public override void Init(WebViewOptions options)
+        {
+            AskPermission();
 
             webView = _CWebViewPlugin_Init(name, options.Transparent, options.Zoom, options.UserAgent, options.EnableWKWebView,
                 (int) options.ContentMode);
