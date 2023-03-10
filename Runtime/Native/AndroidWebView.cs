@@ -13,12 +13,17 @@ namespace ReadyPlayerMe.WebView
         private AndroidJavaObject webView;
         private AndroidJavaObject rectangle;
 
-        public override void Init(WebViewOptions options)
+        public override void AskPermission()
         {
             if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
             {
                 Permission.RequestUserPermission(Permission.Camera);
             }
+        }
+
+        public override void Init(WebViewOptions options)
+        {
+            AskPermission();
 
             webView = new AndroidJavaObject(WebViewAndroidPluginName);
             webView.Call("Init", name, options.Transparent, options.Zoom, (int)options.ColorMode, options.UserAgent);

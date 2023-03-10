@@ -22,6 +22,16 @@ namespace ReadyPlayerMe.WebView
         protected MessagePanel messageCanvas;
         protected int windowVisibleDisplayFrameHeight;
 
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (hasFocus)
+            {
+                AskPermission();
+            }
+        }
+
+        public abstract void AskPermission();
+
         public abstract void Init(WebViewOptions options);
 
         public abstract void SetMargins(int left, int top, int right, int bottom);
