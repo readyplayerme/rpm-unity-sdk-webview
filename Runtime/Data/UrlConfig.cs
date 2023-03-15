@@ -58,6 +58,4 @@ namespace ReadyPlayerMe.WebView
             return url;
         }
     }
-    
-
 }
