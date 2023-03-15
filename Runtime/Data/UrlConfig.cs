@@ -44,7 +44,7 @@ namespace ReadyPlayerMe.WebView
 
             if (quickStart)
             {
-                builder.Append(QUICK_START_PARAM);
+                builder.Append($"&{QUICK_START_PARAM}");
             }
             else
             {
