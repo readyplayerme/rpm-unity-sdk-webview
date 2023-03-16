@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using ReadyPlayerMe.Core;
+using UnityEngine;
 
 namespace ReadyPlayerMe.WebView
 {
@@ -8,6 +10,12 @@ namespace ReadyPlayerMe.WebView
     [System.Serializable]
     public class UrlConfig
     {
+        private const string TAG = nameof(UrlConfig);
+        private const string CLEAR_CACHE_PARAM = "clearCache";
+        private const string FRAME_API_PARAM = "frameApi";
+        private const string QUICK_START_PARAM = "quickStart";
+        private const string SELECT_BODY_PARAM = "selectBodyType";
+        
         [Tooltip("Language of the RPM website.")]
         public Language language = Language.Default;
         
@@ -22,5 +30,32 @@ namespace ReadyPlayerMe.WebView
         
         [Tooltip("Skip body type selection and create avatars with selected body type. Ignored if Quick Start is checked.")]
         public BodyType bodyType = BodyType.Selectable;
+        
+        /// <summary>
+        /// Builds RPM website URL for partner with given parameters.
+        /// </summary>
+        /// <returns>The Url to load in the WebView.</returns>
+        public string BuildUrl()
+        {
+            var builder = new StringBuilder($"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me/");
+            builder.Append(language != Language.Default ? $"{language.GetValue()}/" : string.Empty);
+            builder.Append($"avatar?{FRAME_API_PARAM}");
+            builder.Append(clearCache ? $"&{CLEAR_CACHE_PARAM}" : string.Empty);
+
+            if (quickStart)
+            {
+                builder.Append($"&{QUICK_START_PARAM}");
+            }
+            else
+            {
+                builder.Append(gender != Gender.None ? $"&gender={gender.GetValue()}" : string.Empty);
+                builder.Append(bodyType == BodyType.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={bodyType.GetValue()}");
+            }
+
+            var url = builder.ToString();
+            SDKLogger.AvatarLoaderLogger.Log(TAG, url);
+
+            return url;
+        }
     }
 }

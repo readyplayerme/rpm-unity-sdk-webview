@@ -15,10 +15,6 @@ namespace ReadyPlayerMe.WebView
         private const string TAG = nameof(WebViewPanel);
         private const string DATA_URL_FIELD_NAME = "url";
         private const string AVATAR_EXPORT_EVENT_NAME = "v1.avatar.exported";
-        private const string CLEAR_CACHE_PARAM = "clearCache";
-        private const string FRAME_API_PARAM = "frameApi";
-        private const string QUICK_START_PARAM = "quickStart";
-        private const string SELECT_BODY_PARAM = "selectBodyType";
 
         [SerializeField] private MessagePanel messagePanel;
 
@@ -66,8 +62,8 @@ namespace ReadyPlayerMe.WebView
 
                         WebViewOptions options = new WebViewOptions();
                         webViewObject.Init(options);
-
-                        string url = GetUrlFromConfig();
+                        urlConfig ??= new UrlConfig();
+                        string url = urlConfig.BuildUrl();
                         webViewObject.LoadURL(url);
                         webViewObject.IsVisible = true;
                     }
@@ -106,35 +102,6 @@ namespace ReadyPlayerMe.WebView
 
                 Gizmos.DrawWireCube(center, size);
             }
-        }
-
-
-        /// <summary>
-        /// Builds RPM website URL for partner with given parameters.
-        /// </summary>
-        /// <returns>The Url to load in the WebView.</returns>
-        private string GetUrlFromConfig()
-        {
-            var partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
-            var builder = new StringBuilder($"https://{partnerSubdomain}.readyplayer.me/");
-            builder.Append(urlConfig.language != Language.Default ? $"{urlConfig.language.GetValue()}/" : string.Empty);
-            builder.Append($"avatar?{FRAME_API_PARAM}");
-            builder.Append(urlConfig.clearCache ? $"&{CLEAR_CACHE_PARAM}" : string.Empty);
-
-            if (urlConfig.quickStart)
-            {
-                builder.Append(QUICK_START_PARAM);
-            }
-            else
-            {
-                builder.Append(urlConfig.gender != Gender.None ? $"&gender={urlConfig.gender.GetValue()}" : string.Empty);
-                builder.Append(urlConfig.bodyType == BodyType.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={urlConfig.bodyType.GetValue()}");
-            }
-
-            var url = builder.ToString();
-            SDKLogger.AvatarLoaderLogger.Log(TAG, "url");
-
-            return url;
         }
 
         // Set WebView screen padding in pixels.
