@@ -62,10 +62,7 @@ namespace ReadyPlayerMe.WebView
 
                         WebViewOptions options = new WebViewOptions();
                         webViewObject.Init(options);
-                        if (urlConfig == null)
-                        {
-                            urlConfig = new UrlConfig();
-                        }
+                        urlConfig ??= new UrlConfig();
                         string url = urlConfig.BuildUrl();
                         webViewObject.LoadURL(url);
                         webViewObject.IsVisible = true;
