@@ -1,13 +1,6 @@
-This release includes a number of fixes and adds support for optional SDK logging.
+This release includes a small fix for handling the permissions popup when apps lose focus.
 
 ## Changelog
 
-### Added
-- optional sdk logging
-- release git actions
-
-### Updated
-- Partner subdomain now comes from CoreSettings object
-
 ### Fixed
-- Various other bug fixes and improvements
+- permission popup now shows even if app loses focus

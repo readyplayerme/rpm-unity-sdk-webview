@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0] - 2023.03.21
+
+### Fixed
+- permission popup now shows even if app loses focus
+
+## [1.0.0] - 2023.02.20
+
+### Added
+- optional sdk logging
+- release git actions
+
+### Updated
+- Partner subdomain now comes from CoreSettings object
+
+### Fixed
+- Various other bug fixes and improvements
+
 ## [0.2.0] - 2023.02.08
 
 ### Added
