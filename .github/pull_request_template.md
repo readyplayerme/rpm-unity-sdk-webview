@@ -1,9 +1,9 @@
-<!-- Copy the TICKETID for this task from Monday and add it to the PR name in brackets -->
+<!-- Copy the TICKETID for this task from Jira and add it to the PR name in brackets -->
 <!-- PR name should look like: [TICKETID] My Pull Request -->
 
 <!-- Add link for the ticket here editing the TICKETID-->
 
-## [TICKETID](https://ready-player-me.monday.com/boards/2563815861/pulses/TICKETID)
+## [TICKETID](https://ready-player-me.atlassian.net/browse/TICKETID)
 
 ## Description
 
