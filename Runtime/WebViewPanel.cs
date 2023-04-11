@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using UnityEngine;
@@ -14,67 +12,63 @@ namespace ReadyPlayerMe.WebView
     public class WebViewPanel : MonoBehaviour
     {
         private const string TAG = nameof(WebViewPanel);
-        private const string DATA_URL_FIELD_NAME = "url";
-        private const string AVATAR_EXPORT_EVENT_NAME = "v1.avatar.exported";
 
         [SerializeField] private MessagePanel messagePanel;
 
         [SerializeField] private ScreenPadding screenPadding;
 
         [SerializeField] private UrlConfig urlConfig;
-        [Space, SerializeField] public AvatarCreatedEvent OnAvatarCreated = new AvatarCreatedEvent();
+        [Space, SerializeField] public WebViewEvent OnAvatarCreated = new WebViewEvent();
+        [SerializeField] public WebViewEvent OnUserSet = new WebViewEvent();
+        [SerializeField] public WebViewEvent OnUserAuthorized = new WebViewEvent();
 
         private WebViewBase webViewObject = null;
 
         private bool loaded;
 
         // Event to call when avatar is created, receives GLB url.
-        [Serializable] public class AvatarCreatedEvent : UnityEvent<string> { }
+        [Serializable] public class WebViewEvent : UnityEvent<string> { }
 
         /// <summary>
         /// Create WebView object attached to this <see cref="GameObject"/>.
         /// </summary>
         public void LoadWebView()
         {
-            if (Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                messagePanel.SetMessage(MessageType.NetworkError);
-                messagePanel.SetVisible(true);
-            }
-            else
-            {
+            var messageType = Application.internetReachability == NetworkReachability.NotReachable ? MessageType.NetworkError : MessageType.Loading;
+
 #if UNITY_EDITOR || !(UNITY_ANDROID || UNITY_IOS)
-                messagePanel.SetMessage(MessageType.NotSupported);
-                messagePanel.SetVisible(true);
+            messageType = MessageType.NotSupported;
 #else
-                    if (webViewObject == null)
-                    {
-                        messagePanel.SetMessage(MessageType.Loading);
-                        messagePanel.SetVisible(true);
-
-                        #if UNITY_ANDROID
-                            webViewObject = gameObject.AddComponent<AndroidWebView>();
-                        #elif UNITY_IOS
-                            webViewObject = gameObject.AddComponent<IOSWebView>();
-                        #endif
-
-                        webViewObject.OnLoaded = OnLoaded;
-                        webViewObject.OnJS = OnWebMessageReceived;
-
-                        WebViewOptions options = new WebViewOptions();
-                        webViewObject.Init(options);
-                        urlConfig ??= new UrlConfig();
-                        string url = urlConfig.BuildUrl();
-                        webViewObject.LoadURL(url);
-                        webViewObject.IsVisible = true;
-                    }
-                    else{
-                        SetVisible(true);
-                    }
+            InitializeAndShowWebView();
 #endif
-            }
-
+            messagePanel.SetMessage(messageType);
+            messagePanel.SetVisible(true);
             SetScreenPadding();
+        }
+
+        private void InitializeAndShowWebView()
+        {
+            if (webViewObject == null)
+            {
+#if UNITY_ANDROID
+                webViewObject = gameObject.AddComponent<AndroidWebView>();
+#elif UNITY_IOS
+                webViewObject = gameObject.AddComponent<IOSWebView>();
+#endif
+
+                webViewObject.OnLoaded = OnLoaded;
+                webViewObject.OnJS = OnWebMessageReceived;
+
+                var options = new WebViewOptions();
+                webViewObject.Init(options);
+                urlConfig ??= new UrlConfig();
+                var url = urlConfig.BuildUrl();
+                webViewObject.LoadURL(url);
+                webViewObject.IsVisible = true;
+            }
+            else{
+                SetVisible(true);
+            }
         }
 
         /// <summary>
@@ -123,15 +117,7 @@ namespace ReadyPlayerMe.WebView
             try
             {
                 var webMessage = JsonConvert.DeserializeObject<WebMessage>(message);
-
-                switch (webMessage.eventName)
-                {
-                    case AVATAR_EXPORT_EVENT_NAME:
-                        HandleAvatarExport(webMessage.data);
-                        break;
-                    case "d":
-                        break;
-                }
+                HandleEvents(webMessage);
             }
             catch (Exception e)
             {
@@ -139,19 +125,26 @@ namespace ReadyPlayerMe.WebView
             }
         }
 
-        private void HandleAvatarExport(Dictionary<string, string> data)
+        private void HandleEvents(WebMessage webMessage)
         {
-            if (data.TryGetValue(DATA_URL_FIELD_NAME, out var avatarUrl))
+            switch (webMessage.eventName)
             {
-                OnAvatarCreated?.Invoke(avatarUrl);
+                case WebViewEventNames.AVATAR_EXPORT:
+                    OnAvatarCreated?.Invoke(webMessage.GetAvatarUrl());
+                    if (urlConfig.clearCache)
+                    {
+                        loaded = false;
+                        webViewObject.Reload();
+                    }
 
-                if (urlConfig.clearCache)
-                {
-                    loaded = false;
-                    webViewObject.Reload();
-                }
-
-                SetVisible(false);
+                    SetVisible(false);
+                    break;
+                case WebViewEventNames.USER_SET:
+                    OnUserSet?.Invoke(webMessage.GetUserId());
+                    break;
+                case WebViewEventNames.USER_AUTHORIZED:
+                    OnUserAuthorized?.Invoke(webMessage.GetUserId());
+                    break;
             }
         }
 
