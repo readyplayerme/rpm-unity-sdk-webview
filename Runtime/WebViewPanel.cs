@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
@@ -123,25 +124,34 @@ namespace ReadyPlayerMe.WebView
             {
                 var webMessage = JsonConvert.DeserializeObject<WebMessage>(message);
 
-                if (webMessage.eventName == AVATAR_EXPORT_EVENT_NAME)
+                switch (webMessage.eventName)
                 {
-                    if (webMessage.data.TryGetValue(DATA_URL_FIELD_NAME, out var avatarUrl))
-                    {
-                        OnAvatarCreated?.Invoke(avatarUrl);
-
-                        if (urlConfig.clearCache)
-                        {
-                            loaded = false;
-                            webViewObject.Reload();
-                        }
-
-                        SetVisible(false);
-                    }
+                    case AVATAR_EXPORT_EVENT_NAME:
+                        HandleAvatarExport(webMessage.data);
+                        break;
+                    case "d":
+                        break;
                 }
             }
             catch (Exception e)
             {
                 SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- Message is not JSON: {message}\nError Message: {e.Message}");
+            }
+        }
+
+        private void HandleAvatarExport(Dictionary<string, string> data)
+        {
+            if (data.TryGetValue(DATA_URL_FIELD_NAME, out var avatarUrl))
+            {
+                OnAvatarCreated?.Invoke(avatarUrl);
+
+                if (urlConfig.clearCache)
+                {
+                    loaded = false;
+                    webViewObject.Reload();
+                }
+
+                SetVisible(false);
             }
         }
 
