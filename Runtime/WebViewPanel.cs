@@ -116,8 +116,7 @@ namespace ReadyPlayerMe.WebView
             SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- WebView Message: {message}");
             try
             {
-                var webMessage = JsonConvert.DeserializeObject<WebMessage>(message);
-                HandleEvents(webMessage);
+                HandleEvents(JsonConvert.DeserializeObject<WebMessage>(message));
             }
             catch (Exception e)
             {
