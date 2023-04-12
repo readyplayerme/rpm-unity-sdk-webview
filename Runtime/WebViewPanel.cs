@@ -46,6 +46,9 @@ namespace ReadyPlayerMe.WebView
             SetScreenPadding();
         }
 
+        /// <summary>
+        /// Initializes the WebView if it is not already and enables the WebView window.
+        /// </summary>
         private void InitializeAndShowWebView()
         {
             if (webViewObject == null)
