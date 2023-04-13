@@ -132,7 +132,8 @@ namespace ReadyPlayerMe.WebView
             switch (webMessage.eventName)
             {
                 case WebViewEventNames.AVATAR_EXPORT:
-                    AvatarExported(webMessage.GetAvatarUrl());
+                    OnAvatarCreated?.Invoke(webMessage.GetAvatarUrl());
+                    HideAndClearCache();
                     break;
                 case WebViewEventNames.USER_SET:
                     OnUserSet?.Invoke(webMessage.GetUserId());
@@ -143,9 +144,8 @@ namespace ReadyPlayerMe.WebView
             }
         }
 
-        private void AvatarExported(string url)
+        private void HideAndClearCache()
         {
-            OnAvatarCreated?.Invoke(url);
             if (urlConfig.clearCache)
             {
                 loaded = false;
