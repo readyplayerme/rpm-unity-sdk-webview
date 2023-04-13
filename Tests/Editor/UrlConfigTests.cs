@@ -1,8 +1,7 @@
 using UnityEngine;
 using NUnit.Framework;
-using ReadyPlayerMe.WebView;
 
-namespace Tests
+namespace ReadyPlayerMe.WebView.Tests
 {
     public class UrlConfigTests : MonoBehaviour
     {
