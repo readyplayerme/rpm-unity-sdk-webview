@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.WebView
         /// <summary>
         /// Initializes the WebView if it is not already and enables the WebView window.
         /// </summary>
-        private void InitializeAndShowWebView()
+        private async void InitializeAndShowWebView()
         {
             if (webViewObject == null)
             {
@@ -126,6 +126,12 @@ namespace ReadyPlayerMe.WebView
                 SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- Message is not JSON: {message}\nError Message: {e.Message}");
             }
         }
+        
+        public void SetLastAuthorizedUser(string userId)
+        {
+            Debug.Log($"USER AUTHORIZED ID = {userId}");
+            AccountLinker.SetLastUserId(userId);
+        }
 
         private void HandleEvents(WebMessage webMessage)
         {
@@ -137,10 +143,23 @@ namespace ReadyPlayerMe.WebView
                     break;
                 case WebViewEventNames.USER_SET:
                     OnUserSet?.Invoke(webMessage.GetUserId());
+                    HandleAutoLogin();
                     break;
                 case WebViewEventNames.USER_AUTHORIZED:
                     OnUserAuthorized?.Invoke(webMessage.GetUserId());
+                    SetLastAuthorizedUser(webMessage.GetUserId());
                     break;
+            }
+        }
+
+        private async void HandleAutoLogin()
+        {
+            if (AccountLinker.IsUserSet())
+            {
+                Debug.Log("PartnerName is Set requesting new token and try auto login");
+                var token = await AccountLinker.RequestNewToken();
+                var url = urlConfig.BuildUrl(token);
+                webViewObject.LoadURL(url);
             }
         }
 
