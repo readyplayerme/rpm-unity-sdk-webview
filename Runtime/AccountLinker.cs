@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
@@ -22,17 +23,19 @@ namespace ReadyPlayerMe.WebView
         private const string LAST_USER_ID_PREF = "RPM_LAST_USER_ID";
         private const string URL_PREFIX = "https://readyplayer.me/api/auth/token";
 
-        public static async Task<string> RequestNewToken()
+        public static async Task<string> RequestNewToken(string apiKey)
         {
-            return await RequestNewToken(GetLastUserId(), CoreSettingsHandler.CoreSettings.Subdomain);
+            return await RequestNewToken(GetLastUserId(), apiKey);
         }
         
-        public static async Task<string> RequestNewToken(string userId, string subdomain)
+        public static async Task<string> RequestNewToken(string userId, string apiKey)
         {
-            var url = $"{URL_PREFIX}?userId={userId}&partner={subdomain}";
+            var url = $"{URL_PREFIX}?userId={userId}&partner={CoreSettingsHandler.CoreSettings.Subdomain}";
             Debug.Log($"Requesting new token from {url}");
             var dispatcher = new WebRequestDispatcher();
-            var response = await dispatcher.SendRequest<Response>(url, HttpMethod.GET);
+            var headers = new Dictionary<string, string>();
+            headers.Add("x-api-key", apiKey);
+            var response = await dispatcher.SendRequest<Response>(url, HttpMethod.GET, headers);
             if (!response.IsSuccess)
             {
                 throw new Exception();
