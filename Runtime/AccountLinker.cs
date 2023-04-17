@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 using Response = ReadyPlayerMe.Core.Response;
-using Task = UnityEditor.VersionControl.Task;
 using WebRequestDispatcher = ReadyPlayerMe.Core.WebRequestDispatcher;
 
 namespace ReadyPlayerMe.WebView
@@ -59,7 +58,7 @@ namespace ReadyPlayerMe.WebView
 
         public static bool IsUserSet()
         {
-            return GetLastUserId() == String.Empty;
+            return GetLastUserId() != String.Empty;
         }
     }
 }
