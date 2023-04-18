@@ -10,14 +10,14 @@ namespace ReadyPlayerMe.WebView.Tests
 
         private const string GENDER_MALE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
         private const string GENDER_NONE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
-        
+
         private const string TYPE_FULLBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=fullbody";
         private const string TYPE_HALFBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=halfbody";
-        
+
         private const string CLEAR_CACHE = "https://demo.readyplayer.me/avatar?frameApi&clearCache&selectBodyType";
-        
+
         private const string QUICK_START = "https://demo.readyplayer.me/avatar?frameApi&quickStart";
-        
+
         public UrlConfig config;
 
         [SetUp]
@@ -25,7 +25,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config = new UrlConfig();
         }
-        
+
         [Test]
         public void Url_Name_Change_German()
         {
@@ -33,7 +33,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(LANG_GERMAN, res);
         }
-        
+
         [Test]
         public void Url_Name_Change_Brazil()
         {
@@ -41,7 +41,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(LANG_BRAZIL, res);
         }
-        
+
         [Test]
         public void Url_Gender_Change_Male()
         {
@@ -49,7 +49,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(GENDER_MALE, res);
         }
-        
+
         [Test]
         public void Url_Gender_Change_None()
         {
@@ -57,7 +57,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(GENDER_NONE, res);
         }
-        
+
         [Test]
         public void Url_BodyType_Change_Fullbody()
         {
@@ -65,7 +65,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(TYPE_FULLBODY, res);
         }
-        
+
         [Test]
         public void Url_BodyType_Change_Halfbody()
         {
@@ -73,7 +73,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(TYPE_HALFBODY, res);
         }
-        
+
         [Test]
         public void Url_ClearCache_Change()
         {
@@ -81,7 +81,7 @@ namespace ReadyPlayerMe.WebView.Tests
             var res = config.BuildUrl();
             Assert.AreEqual(CLEAR_CACHE, res);
         }
-        
+
         [Test]
         public void Url_QuickStart_Change()
         {

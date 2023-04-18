@@ -1,4 +1,3 @@
-
 namespace ReadyPlayerMe.WebView
 {
     public static class WebMessageHelper
