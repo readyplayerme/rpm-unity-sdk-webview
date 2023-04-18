@@ -157,7 +157,7 @@ namespace ReadyPlayerMe.WebView
             if (AccountLinker.IsUserSet())
             {
                 Debug.Log("PartnerName is Set requesting new token and try auto login");
-                var token = await AccountLinker.RequestNewToken("APIKEY");
+                var token = await AccountLinker.RequestNewToken("sk_0NzxsmkXab2nBtr5RC04_VZI5OfdFLDFV1uQ");
                 var url = urlConfig.BuildUrl(token);
                 webViewObject.LoadURL(url);
             }
