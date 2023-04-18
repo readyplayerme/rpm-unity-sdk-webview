@@ -15,5 +15,5 @@ jobs:
     - uses: actions/checkout@v2
     - uses: ncipollo/release-action@v1
       with:
-        name: "Ready Player Me Unity SDK: WebView ${{github.ref_name}}"
+        name: "${{github.ref_name}}"
         bodyFile: ".github/latest.md"
