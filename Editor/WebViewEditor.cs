@@ -14,7 +14,7 @@ namespace ReadyPlayerMe.WebView.Editor
         [MenuItem("GameObject/UI/Ready Player Me/WebView Canvas", false)]
         private static void LoadWebViewCanvas()
         {
-            GameObject prefab = Resources.Load<GameObject>(WEB_VIEW_CANVAS_FILE_NAME);
+            var prefab = Resources.Load<GameObject>(WEB_VIEW_CANVAS_FILE_NAME);
             GameObject instance = Instantiate(prefab);
             instance.name = WEB_VIEW_CANVAS_FILE_NAME;
             Selection.activeGameObject = instance;

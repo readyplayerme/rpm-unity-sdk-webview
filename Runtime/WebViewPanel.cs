@@ -27,14 +27,16 @@ namespace ReadyPlayerMe.WebView
         private bool loaded;
 
         // Event to call when avatar is created, receives GLB url.
-        [Serializable] public class WebViewEvent : UnityEvent<string> { }
+        [Serializable] public class WebViewEvent : UnityEvent<string>
+        {
+        }
 
         /// <summary>
         /// Create WebView object attached to this <see cref="GameObject"/>.
         /// </summary>
         public void LoadWebView()
         {
-            var messageType = Application.internetReachability == NetworkReachability.NotReachable ? MessageType.NetworkError : MessageType.Loading;
+            MessageType messageType = Application.internetReachability == NetworkReachability.NotReachable ? MessageType.NetworkError : MessageType.Loading;
 
 #if UNITY_EDITOR || !(UNITY_ANDROID || UNITY_IOS)
             messageType = MessageType.NotSupported;
@@ -69,7 +71,8 @@ namespace ReadyPlayerMe.WebView
                 webViewObject.LoadURL(url);
                 webViewObject.IsVisible = true;
             }
-            else{
+            else
+            {
                 SetVisible(true);
             }
         }
