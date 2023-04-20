@@ -28,8 +28,8 @@ namespace ReadyPlayerMe.WebView
         [Space, SerializeField] public AvatarCreatedEvent OnAvatarCreated = new AvatarCreatedEvent();
 
         private WebViewBase webViewObject = null;
-
-        private bool loaded;
+        
+        public bool Loaded { get; private set; }
 
         // Event to call when avatar is created, receives GLB url.
         [Serializable] public class AvatarCreatedEvent : UnityEvent<string> { }
@@ -164,7 +164,7 @@ namespace ReadyPlayerMe.WebView
 
                         if (urlConfig.clearCache)
                         {
-                            loaded = false;
+                            Loaded = false;
                             webViewObject.Reload();
                         }
 
@@ -184,7 +184,7 @@ namespace ReadyPlayerMe.WebView
         /// <param name="message"></param>
         private void OnLoaded(string message)
         {
-            if (loaded) return;
+            if (Loaded) return;
 
             SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- WebView Loaded.");
             webViewObject.EvaluateJS(@"
@@ -237,7 +237,7 @@ namespace ReadyPlayerMe.WebView
                 window.addEventListener('message', subscribe)
             ");
 
-            loaded = true;
+            Loaded = true;
         }
     }
 }
