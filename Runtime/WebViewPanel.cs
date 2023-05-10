@@ -34,14 +34,14 @@ namespace ReadyPlayerMe.WebView
         /// <summary>
         /// Create WebView object attached to this <see cref="GameObject"/>.
         /// </summary>
-        public void LoadWebView()
+        public void LoadWebView(string loginToken = "")
         {
             MessageType messageType = Application.internetReachability == NetworkReachability.NotReachable ? MessageType.NetworkError : MessageType.Loading;
 
 #if UNITY_EDITOR || !(UNITY_ANDROID || UNITY_IOS)
             messageType = MessageType.NotSupported;
 #else
-            InitializeAndShowWebView();
+            InitializeAndShowWebView(loginToken);
 #endif
             messagePanel.SetMessage(messageType);
             messagePanel.SetVisible(true);
@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.WebView
         /// <summary>
         /// Initializes the WebView if it is not already and enables the WebView window.
         /// </summary>
-        private async void InitializeAndShowWebView()
+        private async void InitializeAndShowWebView(string loginToken = "")
         {
             if (webViewObject == null)
             {
@@ -60,14 +60,13 @@ namespace ReadyPlayerMe.WebView
 #elif UNITY_IOS
                 webViewObject = gameObject.AddComponent<IOSWebView>();
 #endif
-
                 webViewObject.OnLoaded = OnLoaded;
                 webViewObject.OnJS = OnWebMessageReceived;
 
                 var options = new WebViewOptions();
                 webViewObject.Init(options);
                 urlConfig ??= new UrlConfig();
-                var url = urlConfig.BuildUrl();
+                var url = urlConfig.BuildUrl(loginToken);
                 webViewObject.LoadURL(url);
                 webViewObject.IsVisible = true;
             }
@@ -75,6 +74,13 @@ namespace ReadyPlayerMe.WebView
             {
                 SetVisible(true);
             }
+        }
+
+        public void ReloadWithLoginToken(string loginToken = "")
+        {
+            urlConfig ??= new UrlConfig();
+            var url = urlConfig.BuildUrl(loginToken);
+            webViewObject.LoadURL(url);
         }
 
         /// <summary>
