@@ -22,8 +22,8 @@ namespace ReadyPlayerMe.WebView.Editor
 
         public void OnPostGenerateGradleAndroidProject(string basePath)
         {
-            string manifestPath = GetManifestPath(basePath);
-            AndroidManifest androidManifest = new AndroidManifest(manifestPath);
+            var manifestPath = GetManifestPath(basePath);
+            var androidManifest = new AndroidManifest(manifestPath);
 
             androidManifest
                 .SetHardwareAccelerated(true)
@@ -48,7 +48,7 @@ namespace ReadyPlayerMe.WebView.Editor
         [PostProcessBuild(100)]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
         {
-            #if UNITY_IOS
+#if UNITY_IOS
             if (buildTarget == BuildTarget.iOS) {
                 string projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
                 PBXProject proj = new PBXProject();
@@ -56,7 +56,7 @@ namespace ReadyPlayerMe.WebView.Editor
                 proj.AddFrameworkToProject(proj.GetUnityFrameworkTargetGuid(), "WebKit.framework", false);
                 File.WriteAllText(projPath, proj.WriteToString());
             }
-            #endif
+#endif
         }
     }
 
@@ -118,7 +118,7 @@ namespace ReadyPlayerMe.WebView.Editor
 
         private const string UsesCleartextTrafficAttribute = "usesCleartextTraffic";
         private const string HardwareAcceleratedAttribute = "hardwareAccelerated";
-        
+
         private const string XPath = "/manifest/application/activity[intent-filter/action/@android:name='android.intent.action.MAIN' and intent-filter/category/@android:name='android.intent.category.LAUNCHER']";
 
         private static XmlNode ActivityWithLaunchIntent = null;
@@ -129,13 +129,14 @@ namespace ReadyPlayerMe.WebView.Editor
         {
             ManifestElement = SelectSingleNode("/manifest") as XmlElement;
         }
-        
+
         internal XmlNode GetActivityWithLaunchIntent()
         {
             return ActivityWithLaunchIntent ?? SelectSingleNode(XPath, namespaceManager);
         }
 
         #region Node Edit Methods
+
         private XmlAttribute CreateAndroidAttribute(string key, string value)
         {
             XmlAttribute attr = CreateAttribute("android", key, AndroidXmlNamespace);
@@ -152,7 +153,7 @@ namespace ReadyPlayerMe.WebView.Editor
 
         internal void UpdateAttribute(XmlElement activity, string attribute, bool enabled)
         {
-            string value = enabled.ToString();
+            var value = enabled.ToString();
 
             if (activity.GetAttribute(attribute, AndroidXmlNamespace) != value)
             {
@@ -162,24 +163,32 @@ namespace ReadyPlayerMe.WebView.Editor
 
         internal void UpdateNode(string nodeName, string nodeValue)
         {
-            var node = SelectNodes($"/manifest/{nodeName}[@android:{NodeKey}='{nodeValue}']", namespaceManager);
+            XmlNodeList node = SelectNodes($"/manifest/{nodeName}[@android:{NodeKey}='{nodeValue}']", namespaceManager);
             if (node?.Count == 0)
             {
-                var elem = CreateElement(nodeName);
+                XmlElement elem = CreateElement(nodeName);
                 elem.Attributes.Append(CreateAndroidAttribute(NodeKey, nodeValue));
                 ManifestElement.AppendChild(elem);
             }
         }
 
-        internal void UseFeature(string feature) => UpdateNode(UsesFeature, feature);
+        internal void UseFeature(string feature)
+        {
+            UpdateNode(UsesFeature, feature);
+        }
 
-        internal void UsePermission(string permission) => UpdateNode(UsesPermission, permission);
+        internal void UsePermission(string permission)
+        {
+            UpdateNode(UsesPermission, permission);
+        }
+
         #endregion
-        
+
         #region AndroidManifest Options
+
         internal AndroidManifest SetUsesCleartextTraffic(bool enabled)
         {
-            XmlElement activity = GetActivityWithLaunchIntent() as XmlElement;
+            var activity = GetActivityWithLaunchIntent() as XmlElement;
             UpdateAttribute(activity, UsesCleartextTrafficAttribute, enabled);
             return this;
         }
@@ -198,7 +207,7 @@ namespace ReadyPlayerMe.WebView.Editor
 
         internal AndroidManifest SetHardwareAccelerated(bool enabled)
         {
-            XmlElement activity = GetActivityWithLaunchIntent() as XmlElement;
+            var activity = GetActivityWithLaunchIntent() as XmlElement;
             UpdateAttribute(activity, HardwareAcceleratedAttribute, enabled);
             return this;
         }
