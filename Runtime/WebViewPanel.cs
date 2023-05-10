@@ -21,15 +21,11 @@ namespace ReadyPlayerMe.WebView
         [Space, SerializeField] public WebViewEvent OnAvatarCreated = new WebViewEvent();
         [SerializeField] public WebViewEvent OnUserSet = new WebViewEvent();
         [SerializeField] public WebViewEvent OnUserAuthorized = new WebViewEvent();
+        [SerializeField] public AssetUnlockEvent OnAssetUnlock = new AssetUnlockEvent();
 
         private WebViewBase webViewObject = null;
-        
-        public bool Loaded { get; private set; }
 
-        // Event to call when avatar is created, receives GLB url.
-        [Serializable] public class WebViewEvent : UnityEvent<string>
-        {
-        }
+        public bool Loaded { get; private set; }
 
         /// <summary>
         /// Create WebView object attached to this <see cref="GameObject"/>.
@@ -134,14 +130,17 @@ namespace ReadyPlayerMe.WebView
         {
             switch (webMessage.eventName)
             {
-                case WebViewEventNames.AVATAR_EXPORT:
+                case WebViewEvents.AVATAR_EXPORT:
                     OnAvatarCreated?.Invoke(webMessage.GetAvatarUrl());
                     HideAndClearCache();
                     break;
-                case WebViewEventNames.USER_SET:
+                case WebViewEvents.USER_SET:
                     OnUserSet?.Invoke(webMessage.GetUserId());
                     break;
-                case WebViewEventNames.USER_AUTHORIZED:
+                case WebViewEvents.ASSET_UNLOCK:
+                    OnAssetUnlock?.Invoke(webMessage.GetAssetRecord());
+                    break;
+                case WebViewEvents.USER_AUTHORIZED:
                     OnUserAuthorized?.Invoke(webMessage.GetUserId());
                     break;
             }
