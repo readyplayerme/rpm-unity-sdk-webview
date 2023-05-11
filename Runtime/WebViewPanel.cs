@@ -51,7 +51,7 @@ namespace ReadyPlayerMe.WebView
         /// <summary>
         /// Initializes the WebView if it is not already and enables the WebView window.
         /// </summary>
-        private async void InitializeAndShowWebView(string loginToken = "")
+        private void InitializeAndShowWebView(string loginToken = "")
         {
             if (webViewObject == null)
             {
