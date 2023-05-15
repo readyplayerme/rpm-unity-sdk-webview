@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using UnityEngine;
 
@@ -15,7 +17,8 @@ namespace ReadyPlayerMe.WebView
         private const string FRAME_API_PARAM = "frameApi";
         private const string QUICK_START_PARAM = "quickStart";
         private const string SELECT_BODY_PARAM = "selectBodyType";
-
+        private const string LOGIN_TOKEN_PARAM = "token";
+      
         [Tooltip("Language of the RPM website.")]
         public Language language = Language.Default;
 
@@ -30,17 +33,21 @@ namespace ReadyPlayerMe.WebView
 
         [Tooltip("Skip body type selection and create avatars with selected body type. Ignored if Quick Start is checked.")]
         public BodyType bodyType = BodyType.Selectable;
-
+      
         /// <summary>
         /// Builds RPM website URL for partner with given parameters.
         /// </summary>
         /// <returns>The Url to load in the WebView.</returns>
-        public string BuildUrl()
+        public string BuildUrl(string loginToken = "")
         {
             var builder = new StringBuilder($"https://{CoreSettingsHandler.CoreSettings.Subdomain}.readyplayer.me/");
             builder.Append(language != Language.Default ? $"{language.GetValue()}/" : string.Empty);
             builder.Append($"avatar?{FRAME_API_PARAM}");
             builder.Append(clearCache ? $"&{CLEAR_CACHE_PARAM}" : string.Empty);
+            if (loginToken != string.Empty)
+            {
+                builder.Append($"&{LOGIN_TOKEN_PARAM}={loginToken}");
+            }
 
             if (quickStart)
             {
