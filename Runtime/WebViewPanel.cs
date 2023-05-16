@@ -2,7 +2,6 @@ using System;
 using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace ReadyPlayerMe.WebView
 {
