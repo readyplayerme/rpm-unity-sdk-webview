@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - UNRELEASED
+- added support for account linking for auto login [#14](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/14) 
+- added support for asset unlock events [#15](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/15)
+
 ## [1.1.1] - 2023.04.20
 
 ### Updated
