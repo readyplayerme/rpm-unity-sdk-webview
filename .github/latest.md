@@ -1,7 +1,7 @@
-This release includes a small fix for handling the permissions popup when apps lose focus.
+This release adds support for handling account linking and asset unlock events coming from the webview.
 
 ## Changelog
 
-### Updated
-
-- exposed WebViewPanel loaded field to check when canvas is ready [#13](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/13)
+## [1.2.0] - UNRELEASED
+- added support for account linking for auto login [#14](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/14)
+- added support for asset unlock events [#15](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/15)
