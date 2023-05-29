@@ -1,9 +1,7 @@
 using System;
-using System.Text;
 using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace ReadyPlayerMe.WebView
 {
@@ -13,71 +11,71 @@ namespace ReadyPlayerMe.WebView
     public class WebViewPanel : MonoBehaviour
     {
         private const string TAG = nameof(WebViewPanel);
-        private const string DATA_URL_FIELD_NAME = "url";
-        private const string AVATAR_EXPORT_EVENT_NAME = "v1.avatar.exported";
-        private const string CLEAR_CACHE_PARAM = "clearCache";
-        private const string FRAME_API_PARAM = "frameApi";
-        private const string QUICK_START_PARAM = "quickStart";
-        private const string SELECT_BODY_PARAM = "selectBodyType";
 
         [SerializeField] private MessagePanel messagePanel;
 
         [SerializeField] private ScreenPadding screenPadding;
 
         [SerializeField] private UrlConfig urlConfig;
-        [Space, SerializeField] public AvatarCreatedEvent OnAvatarCreated = new AvatarCreatedEvent();
+        [Space, SerializeField] public WebViewEvent OnAvatarCreated = new WebViewEvent();
+        [SerializeField] public WebViewEvent OnUserSet = new WebViewEvent();
+        [SerializeField] public WebViewEvent OnUserAuthorized = new WebViewEvent();
+        [SerializeField] public AssetUnlockEvent OnAssetUnlock = new AssetUnlockEvent();
 
         private WebViewBase webViewObject = null;
-        
-        public bool Loaded { get; private set; }
 
-        // Event to call when avatar is created, receives GLB url.
-        [Serializable] public class AvatarCreatedEvent : UnityEvent<string> { }
+        public bool Loaded { get; private set; }
 
         /// <summary>
         /// Create WebView object attached to this <see cref="GameObject"/>.
         /// </summary>
-        public void LoadWebView()
+        public void LoadWebView(string loginToken = "")
         {
-            if (Application.internetReachability == NetworkReachability.NotReachable)
+            MessageType messageType = Application.internetReachability == NetworkReachability.NotReachable ? MessageType.NetworkError : MessageType.Loading;
+
+#if UNITY_EDITOR || !(UNITY_ANDROID || UNITY_IOS)
+            messageType = MessageType.NotSupported;
+#else
+            InitializeAndShowWebView(loginToken);
+#endif
+            messagePanel.SetMessage(messageType);
+            messagePanel.SetVisible(true);
+            SetScreenPadding();
+        }
+
+        /// <summary>
+        /// Initializes the WebView if it is not already and enables the WebView window.
+        /// </summary>
+        private void InitializeAndShowWebView(string loginToken = "")
+        {
+            if (webViewObject == null)
             {
-                messagePanel.SetMessage(MessageType.NetworkError);
-                messagePanel.SetVisible(true);
+#if UNITY_ANDROID
+                webViewObject = gameObject.AddComponent<AndroidWebView>();
+#elif UNITY_IOS
+                webViewObject = gameObject.AddComponent<IOSWebView>();
+#endif
+                webViewObject.OnLoaded = OnLoaded;
+                webViewObject.OnJS = OnWebMessageReceived;
+
+                var options = new WebViewOptions();
+                webViewObject.Init(options);
+                urlConfig ??= new UrlConfig();
+                var url = urlConfig.BuildUrl(loginToken);
+                webViewObject.LoadURL(url);
+                webViewObject.IsVisible = true;
             }
             else
             {
-#if UNITY_EDITOR || !(UNITY_ANDROID || UNITY_IOS)
-                messagePanel.SetMessage(MessageType.NotSupported);
-                messagePanel.SetVisible(true);
-#else
-                    if (webViewObject == null)
-                    {
-                        messagePanel.SetMessage(MessageType.Loading);
-                        messagePanel.SetVisible(true);
-
-                        #if UNITY_ANDROID
-                            webViewObject = gameObject.AddComponent<AndroidWebView>();
-                        #elif UNITY_IOS
-                            webViewObject = gameObject.AddComponent<IOSWebView>();
-                        #endif
-
-                        webViewObject.OnLoaded = OnLoaded;
-                        webViewObject.OnJS = OnWebMessageReceived;
-
-                        WebViewOptions options = new WebViewOptions();
-                        webViewObject.Init(options);
-
-                        string url = GetUrlFromConfig();
-                        webViewObject.LoadURL(url);
-                        webViewObject.IsVisible = true;
-                    }
-                    else{
-                        SetVisible(true);
-                    }
-#endif
+                SetVisible(true);
             }
+        }
 
-            SetScreenPadding();
+        public void ReloadWithLoginToken(string loginToken = "")
+        {
+            urlConfig ??= new UrlConfig();
+            var url = urlConfig.BuildUrl(loginToken);
+            webViewObject.LoadURL(url);
         }
 
         /// <summary>
@@ -108,35 +106,6 @@ namespace ReadyPlayerMe.WebView
             }
         }
 
-
-        /// <summary>
-        /// Builds RPM website URL for partner with given parameters.
-        /// </summary>
-        /// <returns>The Url to load in the WebView.</returns>
-        private string GetUrlFromConfig()
-        {
-            var partnerSubdomain = CoreSettingsHandler.CoreSettings.Subdomain;
-            var builder = new StringBuilder($"https://{partnerSubdomain}.readyplayer.me/");
-            builder.Append(urlConfig.language != Language.Default ? $"{urlConfig.language.GetValue()}/" : string.Empty);
-            builder.Append($"avatar?{FRAME_API_PARAM}");
-            builder.Append(urlConfig.clearCache ? $"&{CLEAR_CACHE_PARAM}" : string.Empty);
-
-            if (urlConfig.quickStart)
-            {
-                builder.Append(QUICK_START_PARAM);
-            }
-            else
-            {
-                builder.Append(urlConfig.gender != Gender.None ? $"&gender={urlConfig.gender.GetValue()}" : string.Empty);
-                builder.Append(urlConfig.bodyType == BodyType.Selectable ? $"&{SELECT_BODY_PARAM}" : $"&bodyType={urlConfig.bodyType.GetValue()}");
-            }
-
-            var url = builder.ToString();
-            SDKLogger.AvatarLoaderLogger.Log(TAG, "url");
-
-            return url;
-        }
-
         // Set WebView screen padding in pixels.
         private void SetScreenPadding()
         {
@@ -154,28 +123,44 @@ namespace ReadyPlayerMe.WebView
             SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- WebView Message: {message}");
             try
             {
-                var webMessage = JsonConvert.DeserializeObject<WebMessage>(message);
-
-                if (webMessage.eventName == AVATAR_EXPORT_EVENT_NAME)
-                {
-                    if (webMessage.data.TryGetValue(DATA_URL_FIELD_NAME, out var avatarUrl))
-                    {
-                        OnAvatarCreated?.Invoke(avatarUrl);
-
-                        if (urlConfig.clearCache)
-                        {
-                            Loaded = false;
-                            webViewObject.Reload();
-                        }
-
-                        SetVisible(false);
-                    }
-                }
+                HandleEvents(JsonConvert.DeserializeObject<WebMessage>(message));
             }
             catch (Exception e)
             {
                 SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- Message is not JSON: {message}\nError Message: {e.Message}");
             }
+        }
+
+        private void HandleEvents(WebMessage webMessage)
+        {
+            switch (webMessage.eventName)
+            {
+                case WebViewEvents.AVATAR_EXPORT:
+                    OnAvatarCreated?.Invoke(webMessage.GetAvatarUrl());
+                    HideAndClearCache();
+                    break;
+                case WebViewEvents.USER_SET:
+                    OnUserSet?.Invoke(webMessage.GetUserId());
+
+                    break;
+                case WebViewEvents.ASSET_UNLOCK:
+                    OnAssetUnlock?.Invoke(webMessage.GetAssetRecord());
+                    break;
+                case WebViewEvents.USER_AUTHORIZED:
+                    OnUserAuthorized?.Invoke(webMessage.GetUserId());
+                    break;
+            }
+        }
+
+        private void HideAndClearCache()
+        {
+            if (urlConfig.clearCache)
+            {
+                Loaded = false;
+                webViewObject.Reload();
+            }
+
+            SetVisible(false);
         }
 
         /// <summary>

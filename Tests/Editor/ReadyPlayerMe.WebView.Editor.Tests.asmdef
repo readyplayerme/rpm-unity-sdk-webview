@@ -1,0 +1,22 @@
+{
+  "name": "ReadyPlayerMe.WebView.Editor.Tests",
+  "rootNamespace": "",
+  "references": [
+    "GUID:292600d1b44837d4b8ce752a20ebe446",
+    "GUID:96af4ea235d92d245a095007c6ca3701",
+    "GUID:69ab3f10cf42d0b42a6cd1353c374377"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

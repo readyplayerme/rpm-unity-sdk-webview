@@ -19,6 +19,7 @@ To get an overview of the project, read the [README](README.md). Here are some r
 - [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
 - [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow)
 - [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
+- [Code style guide](https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/style-guidelines.md)
 
 
 ## FAQ
@@ -85,6 +86,15 @@ Scan through our [existing issues](https://github.com/github/docs/issues) to fin
 
 ### Commit your update
 
+We encourage following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format when it comes to writing commit messages. Our package repositories come with a .githooks folder that has a commit-msg file that can enforce this.
+To set this up you just need to configure git's hookspath folder to point there.
+
+You can do this by
+1. Open the terminal
+2. Navigate to the root folder of this repository
+3. Run the following command
+   `git config core.hooksPath .githooks`
+
 Commit the changes once you are happy with them. Don't forget to [self-review](#self-review) to speed up the review process:zap:.
 
 ### Self review
@@ -94,10 +104,10 @@ You should always review your own PR first.
 For content changes, make sure that you:
 
 - [ ] Confirm that the changes meet the user experience and goals outlined in the content design plan (if there is one).
-- [ ] Compare your pull request's source changes to staging to confirm that the output matches the source and that everything is rendering as expected. This helps spot issues like typos, content that doesn't follow the style guide, or content that isn't rendering due to versioning problems. Remember that lists and tables can be tricky.
+- [ ] Compare your pull request's source changes to staging to confirm that the output matches the source and that everything is rendering as expected. This helps spot issues like typos, content that doesn't follow the [style guide](https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/style-guidelines.md), or content that isn't rendering due to versioning problems. Remember that lists and tables can be tricky.
 - [ ] Review the content for technical accuracy.
 - [ ] Review the entire pull request using the [translations guide for writers](./translations/for-writers.md).
-- [ ] Copy-edit the changes for grammar, spelling, and adherence to the [style guide](#).
+- [ ] Copy-edit the changes for grammar, spelling, and adherence to the [style guide](https://github.com/readyplayerme/rpm-unity-sdk-core/blob/main/style-guidelines.md).
 - [ ] Check new or updated Liquid statements to confirm that versioning is correct.
 - [ ] If there are any failing checks in your PR, troubleshoot them until they're all passing.
 
