@@ -5,18 +5,21 @@ namespace ReadyPlayerMe.WebView.Tests
 {
     public class UrlConfigTests : MonoBehaviour
     {
-        private const string LANG_GERMAN = "https://demo.readyplayer.me/de/avatar?frameApi&selectBodyType";
-        private const string LANG_BRAZIL = "https://demo.readyplayer.me/pt-BR/avatar?frameApi&selectBodyType";
+        private const string URL_DEFAULT = "https://demo.readyplayer.me/avatar?frameApi&selectBodyType";
+        private const string URL_LANG_GERMAN = "https://demo.readyplayer.me/de/avatar?frameApi&selectBodyType";
+        private const string URL_LANG_BRAZIL = "https://demo.readyplayer.me/pt-BR/avatar?frameApi&selectBodyType";
 
-        private const string GENDER_MALE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
-        private const string GENDER_NONE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
+        private const string URL_GENDER_MALE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
+        private const string URL_GENDER_NONE = "https://demo.readyplayer.me/avatar?frameApi&gender=male&selectBodyType";
 
-        private const string TYPE_FULLBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=fullbody";
-        private const string TYPE_HALFBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=halfbody";
+        private const string URL_TYPE_FULLBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=fullbody";
+        private const string URL_TYPE_HALFBODY = "https://demo.readyplayer.me/avatar?frameApi&bodyType=halfbody";
 
-        private const string CLEAR_CACHE = "https://demo.readyplayer.me/avatar?frameApi&clearCache&selectBodyType";
+        private const string URL_CLEAR_CACHE = "https://demo.readyplayer.me/avatar?frameApi&clearCache&selectBodyType";
 
-        private const string QUICK_START = "https://demo.readyplayer.me/avatar?frameApi&quickStart";
+        private const string URL_QUICK_START = "https://demo.readyplayer.me/avatar?frameApi&quickStart";
+        private const string URL_TOKEN = "https://demo.readyplayer.me/avatar?frameApi&token=TOKEN&selectBodyType";
+        private const string LOGIN_TOKEN = "TOKEN";
 
         public UrlConfig config;
 
@@ -31,7 +34,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.language = Language.German;
             var res = config.BuildUrl();
-            Assert.AreEqual(LANG_GERMAN, res);
+            Assert.AreEqual(URL_LANG_GERMAN, res);
         }
 
         [Test]
@@ -39,7 +42,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.language = Language.PortugueseBrazil;
             var res = config.BuildUrl();
-            Assert.AreEqual(LANG_BRAZIL, res);
+            Assert.AreEqual(URL_LANG_BRAZIL, res);
         }
 
         [Test]
@@ -47,7 +50,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.gender = Gender.Male;
             var res = config.BuildUrl();
-            Assert.AreEqual(GENDER_MALE, res);
+            Assert.AreEqual(URL_GENDER_MALE, res);
         }
 
         [Test]
@@ -55,7 +58,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.gender = Gender.Male;
             var res = config.BuildUrl();
-            Assert.AreEqual(GENDER_NONE, res);
+            Assert.AreEqual(URL_GENDER_NONE, res);
         }
 
         [Test]
@@ -63,7 +66,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.bodyType = BodyType.FullBody;
             var res = config.BuildUrl();
-            Assert.AreEqual(TYPE_FULLBODY, res);
+            Assert.AreEqual(URL_TYPE_FULLBODY, res);
         }
 
         [Test]
@@ -71,7 +74,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.bodyType = BodyType.HalfBody;
             var res = config.BuildUrl();
-            Assert.AreEqual(TYPE_HALFBODY, res);
+            Assert.AreEqual(URL_TYPE_HALFBODY, res);
         }
 
         [Test]
@@ -79,7 +82,7 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.clearCache = true;
             var res = config.BuildUrl();
-            Assert.AreEqual(CLEAR_CACHE, res);
+            Assert.AreEqual(URL_CLEAR_CACHE, res);
         }
 
         [Test]
@@ -87,7 +90,23 @@ namespace ReadyPlayerMe.WebView.Tests
         {
             config.quickStart = true;
             var res = config.BuildUrl();
-            Assert.AreEqual(QUICK_START, res);
+            Assert.AreEqual(URL_QUICK_START, res);
+        }
+
+        [Test]
+        public void Url_With_Token()
+        {
+            var testConfig = new UrlConfig();
+            var res = testConfig.BuildUrl(LOGIN_TOKEN);
+            Assert.AreEqual(URL_TOKEN, res);
+        }
+
+        [Test]
+        public void Url_Default()
+        {
+            var testConfig = new UrlConfig();
+            var res = testConfig.BuildUrl();
+            Assert.AreEqual(URL_DEFAULT, res);
         }
     }
 }
