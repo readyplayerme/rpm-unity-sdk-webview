@@ -18,6 +18,15 @@ namespace ReadyPlayerMe.WebView
         [SerializeField] private ScreenPadding screenPadding;
 
         [SerializeField] private UrlConfig urlConfig;
+        public UrlConfig UrlConfig
+        {
+            get
+            {
+                urlConfig ??= new UrlConfig();
+                return urlConfig;
+            }
+        }
+
         [Space, SerializeField] public WebViewEvent OnAvatarCreated = new WebViewEvent();
         [SerializeField] public WebViewEvent OnUserSet = new WebViewEvent();
         [SerializeField] public WebViewEvent OnUserAuthorized = new WebViewEvent();
