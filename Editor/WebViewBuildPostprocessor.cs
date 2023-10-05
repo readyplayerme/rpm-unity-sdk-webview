@@ -10,7 +10,7 @@ using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 #endif
 
-namespace ReadyPlayerMe.WebView.Editor
+namespace ReadyPlayerMe.WebView
 {
     /// <summary>
     /// Receives a callback after the Android Gradle project is generated,

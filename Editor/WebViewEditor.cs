@@ -2,9 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.WebView.Editor
+namespace ReadyPlayerMe.WebView
 {
-    public class WebViewEditor : UnityEditor.Editor
+    public class WebViewEditor : Editor
     {
         private const string WEB_VIEW_CANVAS_FILE_NAME = "WebView Canvas";
 
