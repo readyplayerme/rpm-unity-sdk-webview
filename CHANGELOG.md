@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2023.20.04
+
+### Updated
+- moved core iframe and url logic to Core package @harrisonhough in [#21](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/21)
 
 ## [1.2.1] - 2023.08.14
 

@@ -66,10 +66,6 @@ _NOTE: The WebView example scene will not load an avatar into the unity scene, i
 **_Alternatively, you can build the APK and deploy it on your own.
 For release builds, see the Unity and Android documentation._**
 
-## Troubleshooting
-- If you don't have a subdomain, this warning will pop up, and you can click Continue with 'demo' subdomain. 
-- If your package name does not comply with the required format, you will get this warning and can't continue until you fix it.
-
 ## Deploy on iOS
 1. In Build Settings, set the Platform to iOS.
 2. Select Debug and check Development build.
@@ -84,3 +80,22 @@ For release builds, see the Unity and Android documentation._**
 6. Close Project Settings.
 7. Click Build.
 8. In the file explorer, find your Builds folder and in it the `Unity-iPhone.xcodeproj`.
+
+
+## WebView 2.0 update
+
+As of WebView 2.0 a number of changes have been made to isolate the WebView module from the rest of the Ready Player Me Unity SDK.
+
+This means that the classes and logic required to work with an iFrame (AKA a WebView), that is running Web Avatar Creator have now been moved to the Ready Player Me Core module. 
+This change enables developers to utilize API's for working with any iFrame, without requiring the installation of our WebView package.
+
+As such the following classes are now located in the Ready Player Me Core module:
+- WebViewMessageHelper
+- UrlConfig
+- WebMessage
+- MessagePanel
+- WebMessageHelper
+- WebViewEvents
+
+If you have any scripts in your Unity project that reference these classes you will need to update the namespace to use ReadyPlayerMe.Core instead of ReadyPlayerMe.WebView, be sure to update the import statements in these scripts.
+EG: `using ReadyPlayerMe.WebView;` should be changed to `using ReadyPlayerMe.Core;`
