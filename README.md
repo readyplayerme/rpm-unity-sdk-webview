@@ -27,6 +27,17 @@ for instructions.
 
 **Deploying the app.** In order to test your WebView app, you have to deploy it to a physical or virtual device. See the Unity documentation on how to do that.
 
+**Required permissions.** The Ready Player Me WebView module requires the following permissions to enable all features:
+- Camera access
+- Microphone access
+- Local storage access
+- Photo Gallery access
+- Hardware acceleration
+- AllowBackup
+
+We provide a script that will automatically add these permissions called WebViewBuildPostprocessor.cs however as of version 2.0 it is disabled by default. 
+To enable this just add the following define to your project via the player settings: `RPM_WEBVIEW_PERMISIONS`
+
 ## Project setup (Android and iOS)
 
 Creating a Scene with a WebView in your Unity project is the same for Android and iOS.
