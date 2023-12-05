@@ -181,9 +181,9 @@ MonoBehaviour:
   urlConfig:
     language: 0
     clearCache: 0
-    quickStart: 0
+    quickStart: 1
     gender: 0
-    bodyType: 0
+    bodyTypeOption: 0
   OnAvatarCreated:
     m_PersistentCalls:
       m_Calls:
