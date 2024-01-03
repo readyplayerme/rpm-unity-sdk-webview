@@ -1,4 +1,4 @@
-#if UNITY_EDITOR && RPM_WEBVIEW_PERMISSIONS
+#if UNITY_EDITOR && !RPM_DISABLE_WEBVIEW_PERMISSIONS
 using System.IO;
 using System.Xml;
 using UnityEditor;

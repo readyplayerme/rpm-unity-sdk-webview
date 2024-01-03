@@ -35,8 +35,8 @@ for instructions.
 - Hardware acceleration
 - AllowBackup
 
-We provide a script that will automatically add these permissions called WebViewBuildPostprocessor.cs however as of version 2.1.0 it is disabled by default. 
-To enable this just add the following define to your project via the player settings: `RPM_WEBVIEW_PERMISSIONS`
+We provide a script that will automatically add these permissions called WebViewBuildPostprocessor.cs which is is enabled by default. 
+To disable this just add the following define to your project via the player settings for Android and iOS build targets: `RPM_DISABLE_WEBVIEW_PERMISSIONS`
 
 ## Project setup (Android and iOS)
 
