@@ -17,15 +17,7 @@ namespace ReadyPlayerMe.WebView
 
         [SerializeField] private ScreenPadding screenPadding;
 
-        [SerializeField] private UrlConfig urlConfig;
-        public UrlConfig UrlConfig
-        {
-            get
-            {
-                urlConfig ??= new UrlConfig();
-                return urlConfig;
-            }
-        }
+        [SerializeField] private UrlConfig urlConfig = new UrlConfig();
 
         [Space, SerializeField] public WebViewEvent OnAvatarCreated = new WebViewEvent();
         [SerializeField] public WebViewEvent OnUserSet = new WebViewEvent();
@@ -35,6 +27,11 @@ namespace ReadyPlayerMe.WebView
         private WebViewBase webViewObject = null;
 
         public bool Loaded { get; private set; }
+
+        public UrlConfig GetUrlConfig()
+        {
+            return urlConfig;
+        }
 
         /// <summary>
         /// Create WebView object attached to this <see cref="GameObject"/>.
@@ -70,7 +67,6 @@ namespace ReadyPlayerMe.WebView
 
                 var options = new WebViewOptions();
                 webViewObject.Init(options);
-                urlConfig ??= new UrlConfig();
                 var url = urlConfig.BuildUrl(loginToken);
                 webViewObject.LoadURL(url);
                 webViewObject.IsVisible = true;
