@@ -6,10 +6,6 @@ using System.Text;
 using UnityEditor.Android;
 using UnityEditor.Callbacks;
 
-#if UNITY_IOS
-using UnityEditor.iOS.Xcode;
-#endif
-
 namespace ReadyPlayerMe.WebView
 {
     /// <summary>
@@ -43,20 +39,6 @@ namespace ReadyPlayerMe.WebView
             pathBuilder.Append(Path.DirectorySeparatorChar).Append("main");
             pathBuilder.Append(Path.DirectorySeparatorChar).Append("AndroidManifest.xml");
             return pathBuilder.ToString();
-        }
-
-        [PostProcessBuild(100)]
-        public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
-        {
-#if UNITY_IOS
-            if (buildTarget == BuildTarget.iOS) {
-                string projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
-                PBXProject proj = new PBXProject();
-                proj.ReadFromString(File.ReadAllText(projPath));
-                proj.AddFrameworkToProject(proj.GetUnityFrameworkTargetGuid(), "WebKit.framework", false);
-                File.WriteAllText(projPath, proj.WriteToString());
-            }
-#endif
         }
     }
 
