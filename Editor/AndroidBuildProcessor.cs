@@ -12,7 +12,7 @@ namespace ReadyPlayerMe.WebView
     /// Receives a callback after the Android Gradle project is generated,
     /// and the callback is used for generating a manifest file with required permissions.
     /// </summary>
-    public class WebViewBuildPostprocessor : IPostGenerateGradleAndroidProject
+    public class AndroidBuildProcessor : IPostGenerateGradleAndroidProject
     {
         public int callbackOrder => 1;
 
