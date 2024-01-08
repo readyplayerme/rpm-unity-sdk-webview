@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - 2024.04.01
+
+### Added
+- scripting define symbol `RPM_DISABLE_WEBVIEW_PERMISSIONS` can now be used to disable Android permissions override @harrisonhough in [#26](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/26)
+
 ## [2.0.0] - 2023.20.04
 
 ### Updated
