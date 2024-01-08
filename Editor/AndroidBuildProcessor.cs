@@ -6,17 +6,13 @@ using System.Text;
 using UnityEditor.Android;
 using UnityEditor.Callbacks;
 
-#if UNITY_IOS
-using UnityEditor.iOS.Xcode;
-#endif
-
 namespace ReadyPlayerMe.WebView
 {
     /// <summary>
     /// Receives a callback after the Android Gradle project is generated,
     /// and the callback is used for generating a manifest file with required permissions.
     /// </summary>
-    public class WebViewBuildPostprocessor : IPostGenerateGradleAndroidProject
+    public class AndroidBuildProcessor : IPostGenerateGradleAndroidProject
     {
         public int callbackOrder => 1;
 
@@ -43,20 +39,6 @@ namespace ReadyPlayerMe.WebView
             pathBuilder.Append(Path.DirectorySeparatorChar).Append("main");
             pathBuilder.Append(Path.DirectorySeparatorChar).Append("AndroidManifest.xml");
             return pathBuilder.ToString();
-        }
-
-        [PostProcessBuild(100)]
-        public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
-        {
-#if UNITY_IOS
-            if (buildTarget == BuildTarget.iOS) {
-                string projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
-                PBXProject proj = new PBXProject();
-                proj.ReadFromString(File.ReadAllText(projPath));
-                proj.AddFrameworkToProject(proj.GetUnityFrameworkTargetGuid(), "WebKit.framework", false);
-                File.WriteAllText(projPath, proj.WriteToString());
-            }
-#endif
         }
     }
 
