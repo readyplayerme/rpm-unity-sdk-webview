@@ -1,4 +1,4 @@
-#if !RPM_DISABLE_WEBVIEW_PERMISSIONS
+#if UNITY_ANDROID && !RPM_DISABLE_WEBVIEW_PERMISSIONS
 using System.IO;
 using System.Xml;
 using UnityEditor;
@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor.Android;
 using UnityEditor.Callbacks;
 
-namespace ReadyPlayerMe.WebView
+namespace ReadyPlayerMe.WebView.Editor
 {
     /// <summary>
     /// Receives a callback after the Android Gradle project is generated,
