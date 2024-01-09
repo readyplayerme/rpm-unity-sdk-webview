@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.1.0] - 2024.04.01
+## [2.1.1] - 2024.09.01
+
+### Fixed
+- fixed a flaw in the logic for disabling android build processor
+- an error causing android builds to fail
+
+## [2.1.0] - 2024.08.01
 
 ### Added
 - scripting define symbol `RPM_DISABLE_WEBVIEW_PERMISSIONS` can now be used to disable Android permissions override @harrisonhough in [#26](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/26)
