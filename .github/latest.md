@@ -3,3 +3,4 @@ This release adds support for handling account linking and asset unlock events c
 ## Changelog
 
 - fixed a flaw in the logic for disabling android build processor
+- an error causing android builds to fail

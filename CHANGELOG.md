@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - fixed a flaw in the logic for disabling android build processor
+- an error causing android builds to fail
 
 ## [2.1.0] - 2024.08.01
 

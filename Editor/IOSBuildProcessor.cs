@@ -8,7 +8,6 @@ namespace ReadyPlayerMe.WebView.Editor
 {
     public class IOSBuildProcessor
     {
-
         [PostProcessBuildAttribute(100)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
