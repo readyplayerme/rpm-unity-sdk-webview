@@ -1,10 +1,9 @@
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
-namespace ReadyPlayerMe.WebView
+namespace ReadyPlayerMe.WebView.Editor
 {
-    public class WebViewEditor : Editor
+    public class WebViewEditor : UnityEditor.Editor
     {
         private const string WEB_VIEW_CANVAS_FILE_NAME = "WebView Canvas";
 
@@ -22,4 +21,3 @@ namespace ReadyPlayerMe.WebView
         }
     }
 }
-#endif
