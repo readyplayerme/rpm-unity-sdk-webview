@@ -1,6 +1,6 @@
 {
   "name": "com.readyplayerme.webview",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "displayName": "Ready Player Me WebView",
   "description": "Ready Player Me WebView helps you display an in-engine browser that helps you load RPM website where you can create avatars and receive avatar URL at the end of the process.\nWebView is mobile only and works in Android and IOS builds.",
   "category": "tool",

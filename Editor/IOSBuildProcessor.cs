@@ -1,8 +1,8 @@
 #if UNITY_IOS
 using System.IO;
 using UnityEditor;
-using UnityEngine;
 using UnityEditor.Callbacks;
+using UnityEditor.iOS.Xcode;
 
 namespace ReadyPlayerMe.WebView.Editor
 {
