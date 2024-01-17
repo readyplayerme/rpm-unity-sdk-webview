@@ -1,22 +1,40 @@
 #if UNITY_IOS
 using System.IO;
 using UnityEditor;
-using UnityEditor.Callbacks;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 using UnityEditor.iOS.Xcode;
 
 namespace ReadyPlayerMe.WebView.Editor
 {
-    public class IOSBuildProcessor
+    public class IOSBuildProcessor : IPostprocessBuildWithReport
     {
-        [PostProcessBuildAttribute(100)]
-        public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
+        public int callbackOrder => 0;
+
+        public void OnPostprocessBuild(BuildReport report)
         {
-            if (BuildTarget.iOS != target) return;
-            var projectPath = $"{pathToBuiltProject}/Unity-iPhone.xcodeproj/project.pbxproj";
-            PBXProject proj = new PBXProject();
-            proj.ReadFromString(File.ReadAllText(projectPath));
-            proj.AddFrameworkToProject(proj.TargetGuidByName("Unity-iPhone"), "WebKit.framework", false);
-            File.WriteAllText(projectPath, proj.WriteToString());
+            if (report.summary.platform != BuildTarget.iOS) return;
+
+            var projectPath = $"{report.summary.outputPath}/Unity-iPhone.xcodeproj/project.pbxproj";
+
+            var pbxProject = new PBXProject();
+            pbxProject.ReadFromFile(projectPath);
+            
+            //Main
+            var targetGuid = pbxProject.GetUnityMainTargetGuid();
+            pbxProject.AddFrameworkToProject(targetGuid, "WebKit.framework", false);
+            pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+            
+            //Unity Tests
+            targetGuid = pbxProject.TargetGuidByName(PBXProject.GetUnityTestTargetName());
+            pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+            
+            //Unity Framework
+            targetGuid = pbxProject.GetUnityFrameworkTargetGuid();
+            pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+            pbxProject.AddBuildProperty(targetGuid, "OTHER_LDFLAGS", "-ld_classic");
+
+            pbxProject.WriteToFile(projectPath);
         }
     }
 }
