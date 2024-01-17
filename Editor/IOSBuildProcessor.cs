@@ -20,19 +20,9 @@ namespace ReadyPlayerMe.WebView.Editor
             var pbxProject = new PBXProject();
             pbxProject.ReadFromFile(projectPath);
             
-            //Main
+            // Main
             var targetGuid = pbxProject.GetUnityMainTargetGuid();
             pbxProject.AddFrameworkToProject(targetGuid, "WebKit.framework", false);
-            pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
-            
-            //Unity Tests
-            targetGuid = pbxProject.TargetGuidByName(PBXProject.GetUnityTestTargetName());
-            pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
-            
-            //Unity Framework
-            targetGuid = pbxProject.GetUnityFrameworkTargetGuid();
-            pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
-            pbxProject.AddBuildProperty(targetGuid, "OTHER_LDFLAGS", "-ld_classic");
 
             pbxProject.WriteToFile(projectPath);
         }
