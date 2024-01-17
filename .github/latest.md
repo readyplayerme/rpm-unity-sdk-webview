@@ -1,4 +1,4 @@
 
 ## Changelog
 
-- fixed an issue causing errors when targeting iOS
+- fix for deprecated PBXProject function
