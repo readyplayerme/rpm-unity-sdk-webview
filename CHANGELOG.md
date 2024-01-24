@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2024.24.01
+
+### Updated
+- feat: update install description by @rk132 in [#33](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/33)
+
 ## [2.1.3] - 2024.17.01
 
 ### Fixed
