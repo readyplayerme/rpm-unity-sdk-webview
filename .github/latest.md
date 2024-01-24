@@ -1,4 +1,4 @@
 
 ## Changelog
 
-- fix for deprecated PBXProject function
+- update install description
