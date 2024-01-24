@@ -14,9 +14,10 @@ Please visit the online documentation and join our public `discord` community.
 
 ## How to install
 
-The WebView module is managed and installed automatically with the [Unity Core](https://github.com/readyplayerme/Unity-Core) module.
+Ready Player me Webview module requires, that you have core package installed.
 Please refer to the **[Quick Start guide]( https://github.com/readyplayerme/Unity-Core#readme )** for instructions on how to install the Unity Core module.
 
+The installation steps for the Webview module can be found **[here.](HOW_TO_INSTALL.md)**
 
 Users can create Ready Player Me avatars seamlessly in a WebView displayed within a Unity application.
 
