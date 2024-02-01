@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ReadyPlayerMe.Core;
 using ReadyPlayerMe.Core.WebView;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ReadyPlayerMe.WebView
 {
@@ -23,6 +24,8 @@ namespace ReadyPlayerMe.WebView
         [SerializeField] public WebViewEvent OnUserSet = new WebViewEvent();
         [SerializeField] public WebViewEvent OnUserAuthorized = new WebViewEvent();
         [SerializeField] public AssetUnlockEvent OnAssetUnlock = new AssetUnlockEvent();
+        [SerializeField] public UnityEvent OnUserLogout = new UnityEvent();
+        [SerializeField] public WebViewEvent OnUserUpdate = new WebViewEvent();
 
         private WebViewBase webViewObject = null;
 
@@ -154,6 +157,12 @@ namespace ReadyPlayerMe.WebView
                     break;
                 case WebViewEvents.USER_AUTHORIZED:
                     OnUserAuthorized?.Invoke(webMessage.GetUserId());
+                    break;
+                case WebViewEvents.USER_LOGOUT:
+                    OnUserLogout?.Invoke();
+                    break;
+                case WebViewEvents.USER_UPDATED:
+                    OnUserUpdate?.Invoke(webMessage.GetUserId());
                     break;
             }
         }
