@@ -1,6 +1,6 @@
 # These owners will be the default owners for everything in
 # the repo. Unless a later match takes precedence,
-# @HarrisonHough and @rYuuk will be requested for
+# @readyplayerme/onboarding-integrations team members will be requested for
 # review when someone opens a pull request.
-*       @HarrisonHough @rYuuk
+*       @readyplayerme/onboarding-integrations
 
