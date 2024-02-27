@@ -6,7 +6,7 @@
 
 Please visit the online documentation and join our public `discord` community.
 
-![](https://i.imgur.com/zGamwPM.png) **[Online Documentation]( https://readyplayer.me/docs )**
+![](https://i.imgur.com/zGamwPM.png) **[Online Documentation]( https://docs.readyplayer.me/ready-player-me/integration-guides/unity)**
 
 ![](https://i.imgur.com/FgbNsPN.png) **[Discord Channel]( https://discord.gg/9veRUu2 )**
 
@@ -14,9 +14,10 @@ Please visit the online documentation and join our public `discord` community.
 
 ## How to install
 
-The WebView module is managed and installed automatically with the [Unity Core](https://github.com/readyplayerme/Unity-Core) module.
+Ready Player me Webview module requires, that you have core package installed.
 Please refer to the **[Quick Start guide]( https://github.com/readyplayerme/Unity-Core#readme )** for instructions on how to install the Unity Core module.
 
+The installation steps for the Webview module can be found **[here.](HOW_TO_INSTALL.md)**
 
 Users can create Ready Player Me avatars seamlessly in a WebView displayed within a Unity application.
 
@@ -26,6 +27,17 @@ Users can create Ready Player Me avatars seamlessly in a WebView displayed withi
 for instructions.
 
 **Deploying the app.** In order to test your WebView app, you have to deploy it to a physical or virtual device. See the Unity documentation on how to do that.
+
+**Required permissions.** The Ready Player Me WebView module requires the following permissions to enable all features:
+- Camera access
+- Microphone access
+- Local storage access
+- Photo Gallery access
+- Hardware acceleration
+- AllowBackup
+
+We provide a script that will automatically add these permissions for Android called AndroidBuildProcessor.cs which is is enabled by default. 
+To disable this just add the following define to your project via the player settings for Android build target: `RPM_DISABLE_WEBVIEW_PERMISSIONS`
 
 ## Project setup (Android and iOS)
 

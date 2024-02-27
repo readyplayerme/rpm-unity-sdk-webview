@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2024.24.01
+
+### Updated
+- feat: update install description by @rk132 in [#33](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/33)
+
+## [2.1.3] - 2024.17.01
+
+### Fixed
+- fix for deprecated PBXProject function
+
+## [2.1.2] - 2024.11.01
+
+### Fixed
+- an issue causing errors when targeting iOS
+
+## [2.1.1] - 2024.09.01
+
+### Fixed
+- fixed a flaw in the logic for disabling android build processor
+- an error causing android builds to fail
+
+## [2.1.0] - 2024.08.01
+
+### Added
+- scripting define symbol `RPM_DISABLE_WEBVIEW_PERMISSIONS` can now be used to disable Android permissions override @harrisonhough in [#26](https://github.com/readyplayerme/rpm-unity-sdk-webview/pull/26)
+
 ## [2.0.0] - 2023.20.04
 
 ### Updated
