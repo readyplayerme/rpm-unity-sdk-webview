@@ -45,8 +45,12 @@ namespace ReadyPlayerMe.WebView
 #else
             InitializeAndShowWebView(loginToken);
 #endif
-            messagePanel.SetMessage(messageType);
-            messagePanel.SetVisible(true);
+            if(messagePanel)
+            {
+                messagePanel.SetMessage(messageType);
+                messagePanel.SetVisible(true);
+            }
+
             SetScreenPadding();
         }
 
@@ -89,7 +93,11 @@ namespace ReadyPlayerMe.WebView
         /// </summary>
         public void SetVisible(bool visible)
         {
-            messagePanel.SetVisible(visible);
+            if(messagePanel)
+            {
+                messagePanel.SetVisible(visible);
+            }
+
             if (webViewObject != null)
             {
                 webViewObject.IsVisible = visible;
@@ -120,7 +128,10 @@ namespace ReadyPlayerMe.WebView
                 webViewObject.SetMargins(screenPadding.left, screenPadding.top, screenPadding.right, screenPadding.bottom);
             }
 
-            messagePanel.SetMargins(screenPadding.left, screenPadding.top, screenPadding.right, screenPadding.bottom);
+            if(messagePanel)
+            {
+                messagePanel.SetMargins(screenPadding.left, screenPadding.top, screenPadding.right, screenPadding.bottom);
+            }
         }
 
         // Receives message from RPM website, which contains avatar URL.
@@ -129,7 +140,8 @@ namespace ReadyPlayerMe.WebView
             SDKLogger.AvatarLoaderLogger.Log(TAG, $"--- WebView Message: {message}");
             try
             {
-                HandleEvents(JsonConvert.DeserializeObject<WebMessage>(message));
+                var jsonMessage = JsonConvert.DeserializeObject<WebMessage>(message);
+                HandleEvents(jsonMessage);
             }
             catch (Exception e)
             {
@@ -142,18 +154,22 @@ namespace ReadyPlayerMe.WebView
             switch (webMessage.eventName)
             {
                 case WebViewEvents.AVATAR_EXPORT:
-                    OnAvatarCreated?.Invoke(webMessage.GetAvatarUrl());
+                    if(OnAvatarCreated != null)
+                        OnAvatarCreated.Invoke(webMessage.GetAvatarUrl());
                     HideAndClearCache();
                     break;
                 case WebViewEvents.USER_SET:
-                    OnUserSet?.Invoke(webMessage.GetUserId());
+                    if(OnUserSet != null)
+                        OnUserSet.Invoke(webMessage.GetUserId());
 
                     break;
                 case WebViewEvents.ASSET_UNLOCK:
-                    OnAssetUnlock?.Invoke(webMessage.GetAssetRecord());
+                    if(OnAssetUnlock != null)
+                        OnAssetUnlock.Invoke(webMessage.GetAssetRecord());
                     break;
                 case WebViewEvents.USER_AUTHORIZED:
-                    OnUserAuthorized?.Invoke(webMessage.GetUserId());
+                    if(OnUserAuthorized != null)
+                        OnUserAuthorized.Invoke(webMessage.GetUserId());
                     break;
             }
         }
