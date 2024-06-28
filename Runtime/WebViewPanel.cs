@@ -48,8 +48,12 @@ namespace ReadyPlayerMe.WebView
 #else
             InitializeAndShowWebView(loginToken);
 #endif
-            messagePanel.SetMessage(messageType);
-            messagePanel.SetVisible(true);
+            if (messagePanel)
+            {
+                messagePanel.SetMessage(messageType);
+                messagePanel.SetVisible(true);
+            }
+
             SetScreenPadding();
         }
 
@@ -92,8 +96,12 @@ namespace ReadyPlayerMe.WebView
         /// </summary>
         public void SetVisible(bool visible)
         {
-            messagePanel.SetVisible(visible);
-            if (webViewObject != null)
+            if (messagePanel)
+            {
+                messagePanel.SetVisible(visible);
+            }
+
+            if (webViewObject)
             {
                 webViewObject.IsVisible = visible;
             }
@@ -102,7 +110,7 @@ namespace ReadyPlayerMe.WebView
         private void OnDrawGizmos()
         {
             var rectTransform = transform as RectTransform;
-            if (rectTransform != null)
+            if (rectTransform)
             {
                 Gizmos.matrix = rectTransform.localToWorldMatrix;
                 Gizmos.color = Color.green;
@@ -123,7 +131,10 @@ namespace ReadyPlayerMe.WebView
                 webViewObject.SetMargins(screenPadding.left, screenPadding.top, screenPadding.right, screenPadding.bottom);
             }
 
-            messagePanel.SetMargins(screenPadding.left, screenPadding.top, screenPadding.right, screenPadding.bottom);
+            if (messagePanel)
+            {
+                messagePanel.SetMargins(screenPadding.left, screenPadding.top, screenPadding.right, screenPadding.bottom);
+            }
         }
 
         // Receives message from RPM website, which contains avatar URL.
