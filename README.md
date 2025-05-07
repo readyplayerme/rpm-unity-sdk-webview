@@ -2,6 +2,25 @@
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/readyplayerme/rpm-unity-sdk-webview)](https://github.com/readyplayerme/rpm-unity-sdk-webview/releases/latest) [![GitHub Discussions](https://img.shields.io/github/discussions/readyplayerme/rpm-unity-sdk-webview)](https://github.com/readyplayerme/rpm-unity-sdk-webview/discussions)
 
+---
+# 🚨 Deprecation Notice 🚨
+
+**⚠️ Important:** This repository is **deprecated** and will no longer be actively maintained by Ready Player Me.
+
+We recommend switching to one of the many other Unity WebView solutions:
+
+- [**Gree Unity Webview**](https://github.com/gree/unity-webview) (Free)
+- [**Vuplex WebView**](https://assetstore.unity.com/search#q=vuplex) (Paid)
+- [**UniWebView**](https://assetstore.unity.com/packages/tools/network/uniwebview-5-229334?srsltid=AfmBOoqyAmKJu18Vl0Q-yBcYxcaiulrzERCYeNnXtKEyQ1S5L780Dwz4) (Paid)
+
+This decision has been made because it no longer makes sense for us to continue supporting this module.
+
+We appreciate your understanding and thank you for using our package.
+
+If you have any questions, feel free to reach out! 😊
+
+---
+
 **Ready Player Me WebView** is an extension to www.readyplayer.me avatar platform and is an optional part of the Ready Player Me Unity SDK, which helps you load and display avatars created on the website.
 
 Please visit the online documentation and join our public `Forums` community.
